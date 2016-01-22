@@ -65,6 +65,12 @@
 #define ICMP_EXC_FRAGTIME	1	/* Fragment Reass time exceeded	*/
 
 
+
+
+#define ICMP_MINLEN	8	/* abs minimum */
+
+ 
+
 struct icmphdr {
   __u8		type;
   __u8		code;

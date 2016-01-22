@@ -21,6 +21,16 @@ union ping_address {
 };
 
 
+typedef int (*ping_efp) (int code,
+			 void *closure,
+			 struct sockaddr_in * dest,
+			 struct sockaddr_in * from,
+			 struct ip * ip, icmphdr_t * icmp, int datalen);
+
+union event {
+  ping_efp handler;
+};
+
 
 struct ping_data
 {
@@ -35,12 +45,26 @@ struct ping_data
 	size_t ping_num_rept;
 	size_t ping_datalen;
 	char *ping_hostname;
+	union event ping_event
+
+	unsigned char *ping_buffer;
 
 };
 
 typedef struct ping_data PING;
 
 
+struct ping_stat
+{
+  double tmin;                  /* minimum round trip time */
+  double tmax;                  /* maximum round trip time */
+  double tsum;                  /* sum of all times, for doing average */
+  double tsumsq;                /* sum of all times squared, for std. dev. */
+};
+
+
+#define PING_HEADER_LNE ICMP_MINLEN
+#define PING_DATALEN    (64 - PING_HEADER_LEN)  /* default data length */
 
 
 #endif
